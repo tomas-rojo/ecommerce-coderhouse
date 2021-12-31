@@ -1,0 +1,32 @@
+<%- include('partials/header'); -%>
+      
+
+      <div class="container mb-5">
+        
+        <div class="row text-center">
+          
+          <div class="col-auto mx-auto">
+            <h1>User Profile</h1>
+            <br>
+
+            <div class="card shadow-lg text-center" style="width:310px;">
+                <img class="card-img-top" src="https://avatars.dicebear.com/api/identicon/<%= user.email %>.svg" alt="Card image">
+                <div class="card-body border-top mt-4 px-3">
+                  <h4 class="card-title font-weight-bold"><%= user.name %></h4>
+                  <p class="card-text lead"><%= user.email %></p>
+                  <p class="card-text lead"><%= user.phone_number %></p>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+<%- include('partials/footer'); -%>

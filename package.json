@@ -1,0 +1,33 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest --coverage",
+    "start:prod": "set NODE_ENV=production&&node src/index.js",
+    "start:dev": "set NODE_ENV=development&&node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "moment": "^2.29.1",
+    "mongoose": "^6.1.4",
+    "multer": "^1.4.4",
+    "nodemailer": "^6.7.2",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
+    "twilio": "^3.72.0",
+    "validator": "^13.7.0"
+  }
+}

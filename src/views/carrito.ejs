@@ -1,0 +1,49 @@
+<%- include('partials/header'); -%>
+<div class="jumbotron m-5 shadow-lg">
+    <h2>Mi Carrito</h2>
+    <br>
+    <% if (typeof(cart) === "undefined") { %>
+    <h5 class="alert alert-warning  lead font-italic">No hay productos cargados.</h5>
+    
+    <% } else { %>
+
+        <div class="table-responsive">
+            <table class="table table-light table-striped table-bordered table-hover text-center">
+                <thead class="thead-dark">
+                    <tr>    
+                        <th>Nombre</th> 
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Propiedad</th>
+        
+                    </tr>
+                </thead> 
+                <% cart.map(function(product) { %>
+                    <% product.products.map(function(item) { %> 
+                        <tr>
+                            <td><%= item.name %></td>
+                            <td>$ <%= item.price %></td>
+                            <td>1</td>
+                            <td class="text-center">
+                                <a href="eliminar/<%= item._id %>" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% }); %>
+                
+            </table>
+        </div>    
+
+        <div class="d-flex justify-content-around pt-5">
+            <h1>Total: <span>1000$</span></h1>
+        </div>
+        
+        <div class="d-flex justify-content-around">
+            <a href="vaciar" class="btn btn-lg btn-outline-danger mt-5"><strong>Vaciar Carrito</strong></a>
+            <a href="checkout" class="btn btn-lg btn-outline-success mt-5"><strong>Comprar</strong></a>
+        </div>
+    
+    <% } %>
+</div>
+
+<%- include('partials/footer'); -%>

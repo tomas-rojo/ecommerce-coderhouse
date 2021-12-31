@@ -1,0 +1,84 @@
+<%- include('partials/header'); -%>
+
+
+    <div class="container">
+      <h1 class="text-center my-5">Vista de Productos</h1>
+      <br>
+
+      <div class="row text-center">
+          <div class="col-lg-3 col-sm-12 form-group">
+            <form action="/productos/listar-nombre" method="post">
+                <label class="font-weight-bold">Find By Name</label>
+                <input type="text" class="form-control" name="search" placeholder="Find By Name" required>
+                <button class="btn btn-outline-success mt-3" type="submit">Search</button>
+            </form>
+          </div>
+          <div class="col-lg-3 col-sm-12 form-group">
+            <form action="/productos/listar-codigo" method="post">
+                <label class="font-weight-bold">Find By Code</label>
+                <input type="text" class="form-control" name="code" placeholder="Find By Code" required>
+                <button class="btn btn-outline-success mt-3" type="submit">Search</button>
+            </form>
+          </div>
+          <div class="col-lg-3 col-sm-12 form-group">
+            <form action="/productos/listar-precio" method="post">
+                <label class="font-weight-bold">Find By Price</label>
+                <input type="text" class="form-control mb-2" name="min_price" value="0" placeholder="Min Price" required>
+                <input type="text" class="form-control" name="max_price" placeholder="Max Price" required>
+                <button class="btn btn-outline-success mt-3" type="submit">Search</button>
+            </form>
+          </div>
+          <div class="col-lg-3 col-sm-12 form-group">
+            <form action="/productos/listar-stock" method="post">
+                <label class="font-weight-bold">Find By Stock</label>
+                <input type="text" class="form-control mb-2" name="min_stock" value="0" placeholder="Min Stock" required>
+                <input type="text" class="form-control" name="max_stock" placeholder="Max Stock" required>
+                <button class="btn btn-outline-success mt-3" type="submit">Search</button>
+            </form>
+          </div>
+      </div>
+
+      
+    </div>
+
+
+        <div class="container pt-5">
+
+              <div class="row row-cols-1 row-cols-md-2 justify-items-around">
+
+                <% if (products.length > 0) { %>
+
+                  <% products.map(function(product) { %>
+
+                      <div class="col my-4 d-flex align-items-stretch">
+                          <div class="card shadow pt-4" style="border-radius: 40px;" >
+                              <img src="<%= product.thumbnail %>" id="productImage" data-toggle="modal" data-target="#exampleModal"class="card-img-top w-50" alt="<%= product.name %>" style="border-radius: 40px; margin:auto;">
+                              <div class="card-body text-center">
+                                  <h3 class="card-title"><%= product.name %></h3>
+                                  <div class="card-text text-muted"><%= product.description %></div>
+                                  <div class="card-text lead font-weight-bold pt-3">$<%= product.price %></div>
+                              </div>
+                              <div class="card-footer text-center bg-transparent">
+                                  <a href="../carrito/agregar/<%= product.id %>" class="btn btn-primary mx-auto px-5 py-2"><i class="fas fa-cart-plus h3"></i>&nbsp; Agregar</a>
+                              </div>
+                              <% if (user.role == "admin") { %>
+                              <div class="text-center">
+                                  <a href="eliminar/<%= product.id %>" class="btn btn-danger my-3 px-5 py-2">Eliminar</a>
+                                  <a href="modificar/<%= product.id %>" class="btn btn-success my-3 px-5 py-2">Editar</a>
+                              </div>
+                              <% } %>
+                          </div>
+                      </div>
+
+                  <% }); %>
+
+                <% } else { %>
+                    <h5 class="alert alert-warning lead font-italic">No se encontraron productos.</h5>
+                <% } %>
+
+              </div>
+              
+          </div>
+    
+
+<%- include('partials/footer'); -%>
