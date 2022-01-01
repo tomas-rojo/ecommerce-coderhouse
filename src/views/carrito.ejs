@@ -2,41 +2,54 @@
 <div class="jumbotron m-5 shadow-lg">
     <h2>Mi Carrito</h2>
     <br>
-    <% if (typeof(cart) === "undefined") { %>
+    <% if (!order) { %>
     <h5 class="alert alert-warning  lead font-italic">No hay productos cargados.</h5>
     
     <% } else { %>
 
-        <div class="table-responsive">
-            <table class="table table-light table-striped table-bordered table-hover text-center">
-                <thead class="thead-dark">
-                    <tr>    
-                        <th>Nombre</th> 
-                        <th>Precio</th>
-                        <th>Cantidad</th>
-                        <th>Propiedad</th>
-        
-                    </tr>
-                </thead> 
-                <% cart.map(function(product) { %>
-                    <% product.products.map(function(item) { %> 
-                        <tr>
-                            <td><%= item.name %></td>
-                            <td>$ <%= item.price %></td>
-                            <td>1</td>
-                            <td class="text-center">
-                                <a href="eliminar/<%= item._id %>" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                    <% }); %>
-                <% }); %>
-                
-            </table>
-        </div>    
+        <% order.map(function(o) { %>
 
-        <div class="d-flex justify-content-around pt-5">
-            <h1>Total: <span>1000$</span></h1>
-        </div>
+            <% if (!o.totalSum) { %>
+            <div class="card my-4 p-2 border-0 shadow text-center">
+                <div class="row no-gutters">
+                   <div class="col-sm-2 align-self-center">
+                      <img class="card-img-top w-75 " src="<%= o.productImg %>" alt="<%= o.productName %>">
+                   </div>
+                   <div class="col-sm-6 align-self-center">
+                      <div class="card-body d-flex align-content-left">
+                         <h4 class="card-title"> <%= o.productName %></h4>
+                      </div>
+                   </div>
+                   <div class="col-sm-2 align-self-center">
+                    <div class="card-body">
+                       <h4 class="card-title">$<%= o.productPrice %></h4>
+                    </div>
+                 </div>
+                 <div class="col-sm-1 align-self-center">
+                    <div class="card-body">
+                       <h4 class="card-title">x <%= o.quantity %></h4>
+                    </div>
+                 </div>
+                 <div class="col-sm-1 align-self-center">
+                    <div class="card-body">
+                       <a href="eliminar/<%= o.productID %>" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
+                    </div>
+                 </div>
+                </div>
+             </div>
+            
+             <% } %> 
+
+             <% if (o.totalSum && !o.productName) { %>
+                <div class="d-flex justify-content-around pt-5">
+                    <h1>Total: <span>$ <%= o.totalSum %></span></h1>
+                </div>
+                
+            <% } %> 
+             
+        <% }); %> 
+
+        
         
         <div class="d-flex justify-content-around">
             <a href="vaciar" class="btn btn-lg btn-outline-danger mt-5"><strong>Vaciar Carrito</strong></a>

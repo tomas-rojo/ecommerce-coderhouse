@@ -15,9 +15,9 @@ exports.addToCart = async (req, res, next) => {
 
 
 exports.getCart = async (req, res, next) => {
-    await orderService.getOrder(req.user.id)
-    const cart = await cartService.getCart(req.user.id)
-    res.render('carrito', {cart: cart})
+  const cart = await cartService.getCart(req.user.id)
+  const order = await orderService.getOrder(cart)
+  res.render('carrito', {cart: cart, order:order})
 };
 
 
