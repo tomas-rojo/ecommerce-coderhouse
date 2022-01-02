@@ -1,4 +1,7 @@
+//----------------------------------------------------------------------
 //IMPORTS
+//----------------------------------------------------------------------
+
 const path = require('path')
 const express = require('express');
 const cors = require('cors')
@@ -12,20 +15,30 @@ const server = require("http").Server(app);
 const session = require('express-session');
 const passport = require('passport')
 const flash = require('connect-flash');
-const {isAuthenticated}  = require('./middlewares/isAuthenticated')
+const { isAuthenticated }  = require('./middlewares/isAuthenticated')
 var moment = require('moment');
 require('./services/passportLocal')
 
+
+//----------------------------------------------------------------------
 //SETTINGS
+//----------------------------------------------------------------------
+
 app.set('views', path.join(__dirname + '/views'))
 app.set('view engine', 'ejs')
 
+//----------------------------------------------------------------------
 //MIDDLEWARES
+//----------------------------------------------------------------------
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 app.use(express.static(__dirname + '/public'));
 
+//----------------------------------------------------------------------
+//SESSION
+//----------------------------------------------------------------------
 
 app.use(session({
     secret: 'secreto',
@@ -36,12 +49,17 @@ app.use(session({
       },
 }));
 
+//----------------------------------------------------------------------
 //PASSPORT
+//----------------------------------------------------------------------
+
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+//----------------------------------------------------------------------
 //ROUTES
+//----------------------------------------------------------------------
 
 app.use((req, res, next) => {
   app.locals.error = req.flash('error')
@@ -49,39 +67,46 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.use('/', userRoutes)
+
 app.use('/productos', isAuthenticated, productsRoutes)
+
 app.use('/carrito', isAuthenticated, cartRoutes)
+
 app.use('/chat', isAuthenticated, messagesRoutes)
+
 app.use('*', invalidRoute)
 
-// websockets
+//----------------------------------------------------------------------
+// WEBSOCKETS
+//----------------------------------------------------------------------
+
 const io = require('socket.io')(server);
 
-var mensajes = []
-// cuando se realice la conexion, se ejecutara una sola vez
+var messages = []
+
 io.on('connection', socket => {
 
-    // Enviar todos los mensajes un cliente se conecta
-  socket.emit(`todos-los-mensajes`, { mensajes: mensajes})
+      // Enviar todos los mensajes cuando un cliente se conecta
+      socket.emit(`todos-los-mensajes`, { mensajes: messages})
 
-  socket.on('nuevo-mensaje', (nuevoMensaje) => {
-    let time = moment().format('DD/MM/YYYY hh:mm:ss')
-    let elNuevoMensaje = {
-      name: app.locals.user.name,
-      mensaje: nuevoMensaje.mensaje,
-      time: time
-    }
-    mensajes.push(elNuevoMensaje)
-    io.sockets.emit('recibir nuevoMensaje', [elNuevoMensaje])
-  })
+      // Recibo el mensaje y lo proceso
+      socket.on('nuevo-mensaje', (messageData) => {
 
-    socket.on('mensaje', (data) => {
-        io.sockets.emit('tablaProductos', {productos: producto.listaProductos})
-    })
+        let time = moment().format('DD/MM/YYYY hh:mm')
+
+        let newMessage = {
+          name: app.locals.user.name,
+          mensaje: messageData.mensaje,
+          time: time
+        }
+
+        messages.push(newMessage)
+
+        io.sockets.emit('recibir nuevoMensaje', [newMessage])
+      })
+
 });
-
 
 
 module.exports = server

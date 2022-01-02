@@ -1,23 +1,23 @@
 <%- include('partials/header'); -%>
       
 
-<div class="container ">
-    <div class="row text-center">
-        <div class="col-lg-8 col-sm-10 mx-auto">
-            <div class="card">
-                <div class="card-text" id="mensajes"></div>
-                <div class="card-footer">
-                    <form class="form-group mt-3" autocomplete="off">
-                        <textarea class="form-control w-100" id="mensaje" rows="3" placeholder="Escribi tu mensaje..." required></textarea>
-                        <button class="btn btn-lg btn-outline-primary mt-3"  onclick="sendMessage()" id="btn-send">Enviar mensaje</button>   
-                    </form>
+        <div class="container ">
+            <div class="row text-center">
+                <div class="col-lg-8 col-sm-10 mx-auto">
+                    <div class="card">
+                        <div class="card-text" id="mensajes"></div>
+                        <div class="card-footer">
+                            <form class="form-group mt-3" autocomplete="off">
+                                <textarea class="form-control w-100" id="mensaje" rows="3" placeholder="Escribi tu mensaje..." required></textarea>
+                                <button class="btn btn-lg btn-outline-primary mt-3"  onclick="sendMessage()" id="btn-send">Enviar mensaje</button>   
+                            </form>
+                        </div>
+                        
+                    </div>
                 </div>
                 
             </div>
         </div>
-        
-    </div>
-</div>
 
 
 <%- include('partials/footer'); -%>

@@ -68,41 +68,42 @@
 
     </script>
 
-<script>
+    <script>
 
-  var socket = io();
-  
-  var template = Handlebars.compile(`
-              {{# each mensajes }}
-              <p><span><strong class="text-primary">{{this.name}}</strong></span>
-              <span class="text-danger">{{this.mensaje}}</span>
-              <span class="text-success font-italic">{{this.time}}</span></p>
-              {{/each}}
-          `)
-  
-          function addAllMessages(data) {
-              $("#mensajes").html(template({ mensajes: data.mensajes}))
-          }
-  
-          function addNewMessage(listaMensajes) {
-              $("#mensajes").append(template({ mensajes: listaMensajes}))
-          }
-  
-          function sendMessage() {
-              var mensaje = document.getElementById("mensaje").value
-              socket.emit('nuevo-mensaje', {
-                  mensaje: mensaje
+              let socket = io();
+      
+              let template = Handlebars.compile(`
+                  {{# each mensajes }}
+                  <p><span><strong class="text-primary">{{this.name}}</strong></span>
+                  <span class="text-danger">{{this.mensaje}}</span>
+                  <span class="text-success font-italic">{{this.time}}</span></p>
+                  {{/each}}
+              `)
+      
+              function addAllMessages(data) {
+                  $("#mensajes").html(template({ mensajes: data.mensajes}))
+              }
+      
+              function addNewMessage(listaMensajes) {
+                  $("#mensajes").append(template({ mensajes: listaMensajes}))
+              }
+      
+              function sendMessage() {
+                  var mensaje = document.getElementById("mensaje").value
+                  socket.emit('nuevo-mensaje', {
+                      mensaje: mensaje
+                  })
+              }
+      
+              socket.on(`todos-los-mensajes`, function(data) {
+                  addAllMessages(data)
               })
-          }
-  
-          socket.on(`todos-los-mensajes`, function(data) {
-              addAllMessages(data)
-          })
-  
-          socket.on('recibir nuevoMensaje', function(listaMensajes) {
-              addNewMessage(listaMensajes)
-          })
-      </script>
+      
+              socket.on('recibir nuevoMensaje', function(listaMensajes) {
+                  addNewMessage(listaMensajes)
+              })
+
+    </script>
 
     
     
