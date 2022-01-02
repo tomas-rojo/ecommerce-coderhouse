@@ -6,13 +6,14 @@ const productsRoutes = require('./routes/productRoutes')
 const cartRoutes = require('./routes/cartRoutes')
 const invalidRoute = require('./routes/invalidRoutes')
 const userRoutes = require('./routes/userRoutes')
+const messagesRoutes = require('./routes/messagesRoutes')
 const app = express();
 const server = require("http").Server(app);
 const session = require('express-session');
 const passport = require('passport')
 const flash = require('connect-flash');
 const {isAuthenticated}  = require('./middlewares/isAuthenticated')
-
+var moment = require('moment');
 require('./services/passportLocal')
 
 //SETTINGS
@@ -48,9 +49,39 @@ app.use((req, res, next) => {
   next();
 });
 
+
 app.use('/', userRoutes)
 app.use('/productos', isAuthenticated, productsRoutes)
 app.use('/carrito', isAuthenticated, cartRoutes)
+app.use('/mensajes', isAuthenticated, messagesRoutes)
 app.use('*', invalidRoute)
+
+// websockets
+const io = require('socket.io')(server);
+
+var mensajes = []
+// cuando se realice la conexion, se ejecutara una sola vez
+io.on('connection', socket => {
+
+    // Enviar todos los mensajes un cliente se conecta
+  socket.emit(`todos-los-mensajes`, { mensajes: mensajes})
+
+  socket.on('nuevo-mensaje', (nuevoMensaje) => {
+    let time = moment().format('DD/MM/YYYY hh:mm:ss')
+    let elNuevoMensaje = {
+      name: app.locals.user.name,
+      mensaje: nuevoMensaje.mensaje,
+      time: time
+    }
+    mensajes.push(elNuevoMensaje)
+    io.sockets.emit('recibir nuevoMensaje', [elNuevoMensaje])
+  })
+
+    socket.on('mensaje', (data) => {
+        io.sockets.emit('tablaProductos', {productos: producto.listaProductos})
+    })
+});
+
+
 
 module.exports = server

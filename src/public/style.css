@@ -58,4 +58,26 @@ p a:hover{
   -webkit-transform: scale(1.15);
   transform: scale(1.15);
 }
-  
+
+#chat-logo{
+  position:fixed;
+  padding-top: 17px;
+  width:5rem;
+  height:5rem;
+  bottom:40px;
+  right:40px;
+  border-radius:50px;
+  text-align:center;
+  font-size:45px;
+  z-index:100;
+  background-color:rgb(245, 245, 245);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 20px 4px;
+  -webkit-transition: -webkit-transform 0.4s;
+  transition: transform 0.4s;
+}
+
+#chat-logo:hover {
+  -webkit-transform: scale(1.15);
+  transform: scale(1.15);
+}
+
