@@ -3,6 +3,6 @@ const router = express.Router()
 const { getMessages } = require('../controllers/messagesController');
 
 router
-    .get('/listar', getMessages)
+    .get('/', getMessages)
 
 module.exports = router

@@ -53,7 +53,7 @@ app.use((req, res, next) => {
 app.use('/', userRoutes)
 app.use('/productos', isAuthenticated, productsRoutes)
 app.use('/carrito', isAuthenticated, cartRoutes)
-app.use('/mensajes', isAuthenticated, messagesRoutes)
+app.use('/chat', isAuthenticated, messagesRoutes)
 app.use('*', invalidRoute)
 
 // websockets
