@@ -1,11 +1,9 @@
 require('dotenv').config();
 
-const STORAGE = "mongodb" // Podemos elegir el tipo de persistencia a "memory" o "mongodb"
-
 module.exports = {
     PORT: process.env.PORT || 8080,
     NODE_ENV: process.env.NODE_ENV,
-    STORAGE: STORAGE,
+    STORAGE: process.env.STORAGE || "mongodb",
     MONGO_URI: process.env.MONGO_URI || "",
     GMAIL_EMAIL: process.env.GMAIL_EMAIL,
     GMAIL_PASS: process.env.GMAIL_PASS,
